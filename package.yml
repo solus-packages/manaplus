@@ -1,29 +1,47 @@
 name       : manaplus
-version    : 1.2.1.21
-release    : 2
+version    : 1.7.8.5
+release    : 3
 source     :
-    - git|https://gitlab.com/manaplus/manaplus : v1.7.1.21
+    - http://download.evolonline.org/manaplus/download/1.7.8.5/manaplus-1.7.8.5.tar.xz : 0247a7cefb519cb6cf7af44bb61383f54179976dbe41fee3f9d357689c6565c1
 license    : GPL-2.0
 component  : games.mmo
-summary    : The Mana Plus Client
-description: |
-    The Mana Plus Client
+summary    : Advanced 2D MMORPG client for The Mana World and Evol Online
+description: ManaPlus is an extended client for Evol Online, The Mana World, and similar servers based on a fork of eAthena. Evol Online is a 2D fantasy-style game which aims to create a friendly environment for interacting with others where people can escape reality and enjoy themselves. The Mana World (TMW) is a serious effort to create an innovative free and open source MMORPG. TMW uses 2D graphics and aims to create a large and diverse interactive world.
 builddeps  :
     - pkgconfig(gl)
     - pkgconfig(glu)
+    - pkgconfig(harfbuzz)
     - pkgconfig(libcurl)
     - pkgconfig(libpng)
-    - pkgconfig(SDL_gfx)
-    - pkgconfig(SDL_image)
-    - pkgconfig(SDL_mixer)
-    - pkgconfig(SDL_net)
-    - pkgconfig(SDL_ttf)
-    - physfs-devel
+    - pkgconfig(SDL2_gfx)
+    - pkgconfig(SDL2_image)
+    - pkgconfig(SDL2_mixer)
+    - pkgconfig(SDL2_net)
+    - pkgconfig(SDL2_ttf)
+    - dejavu-fonts-ttf
+    - liberation-fonts-ttf
 rundeps    :
+    - dejavu-fonts-ttf
+    - liberation-fonts-ttf
     - xdg-utils
 setup      : |
-    %reconfigure
+    %configure --with-sdl2
 build      : |
     %make
 install    : |
     %make_install
+
+    # Use available system fonts
+    rm -f $installdir/usr/share/manaplus/data/fonts/dejavu*.ttf
+    ln -s /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf $installdir/usr/share/manaplus/data/fonts/dejavusans-bold.ttf
+    ln -s /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf $installdir/usr/share/manaplus/data/fonts/dejavusans.ttf
+    ln -s /usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf $installdir/usr/share/manaplus/data/fonts/dejavusansmono-bold.ttf
+    ln -s /usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf $installdir/usr/share/manaplus/data/fonts/dejavusansmono.ttf
+    ln -s /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed-Bold.ttf $installdir/usr/share/manaplus/data/fonts/dejavuserifcondensed-bold.ttf
+    ln -s /usr/share/fonts/truetype/dejavu/DejaVuSerifCondensed.ttf $installdir/usr/share/manaplus/data/fonts/dejavuserifcondensed.ttf
+    rm -f $installdir/usr/share/manaplus/data/fonts/liberation*.ttf
+    ln -s /usr/share/fonts/Liberation/LiberationSans-Bold.ttf $installdir/usr/share/manaplus/data/fonts/liberationsans-bold.ttf
+    ln -s /usr/share/fonts/Liberation/LiberationSans-Regular.ttf $installdir/usr/share/manaplus/data/fonts/liberationsans.ttf
+    ln -s /usr/share/fonts/Liberation/LiberationMono-Bold.ttf $installdir/usr/share/manaplus/data/fonts/liberationsansmono-bold.ttf
+    ln -s /usr/share/fonts/Liberation/LiberationMono-Regular.ttf $installdir/usr/share/manaplus/data/fonts/liberationsansmono.ttf
+
